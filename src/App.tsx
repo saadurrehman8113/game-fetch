@@ -1,7 +1,11 @@
-import ListGroup from "./components/ListGroup";
+import Form from "./components/Form";
 
 const App = () => {
-  return <ListGroup />;
+  return (
+    <div className="p-4">
+      <Form />
+    </div>
+  );
 };
 
 export default App;
