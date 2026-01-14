@@ -1,7 +1,12 @@
 import { useForm, type FieldValues } from "react-hook-form";
 
+interface FormData {
+  name: string;
+  age: number;
+}
+
 const Form = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<FormData>();
 
   const submitForm = (formData: FieldValues) => console.log(formData);
 
@@ -12,7 +17,7 @@ const Form = () => {
           Name
         </label>
         <input
-          {...register("name")}
+          {...register("name", { required: true, minLength: 3 })}
           id="name"
           type="text"
           className="form-control"
@@ -23,7 +28,7 @@ const Form = () => {
           Age
         </label>
         <input
-          {...register("age")}
+          {...register("age", { required: true, minLength: 3 })}
           id="age"
           type="text"
           className="form-control"
