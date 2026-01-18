@@ -1,47 +1,48 @@
 import { useState } from "react";
-import AddProduct from "./AddProduct";
-import ListProducts from "./ListProducts";
-
-// interface Products {
-//   description: string;
-//   amount: number;
-//   category: string;
-// }
+import ExpenseForm from "./ExpenseForm";
+import ExpensesList from "./ExpensesList";
+import ExpenseFilter from "./ExpenseFilter";
+import categories from "./categories";
 
 const ExpenseTracker = () => {
-  const [filterBy, setFilterBy] = useState("");
-  const [products, setProducts] = useState([
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [expenses, setExpenses] = useState([
     {
+      id: 1,
       description: "abc",
       amount: 10,
       category: "Grocery",
     },
     {
+      id: 2,
       description: "def",
       amount: 20,
       category: "Fuel",
     },
     {
+      id: 3,
       description: "ghi",
       amount: 15,
       category: "Bills",
     },
   ]);
 
+  const expensesFilteredByCategory = selectedCategory
+    ? expenses.filter((expense) => expense.category === selectedCategory)
+    : expenses;
   return (
     <>
       <h1 className="text-center">Expense Tracker</h1>
-      <AddProduct categories={products.map((product) => product.category)} />
-      <ListProducts
-        products={
-          filterBy
-            ? products.filter((product) => product.category === filterBy)
-            : products
-        }
-        categories={products.map((product) => product.category)}
-        onSelectCategory={(event) => {
-          setFilterBy(event.target.value);
+      <ExpenseForm
+        categories={categories}
+        onSubmit={(formData) => {
+          setExpenses([...expenses, formData]);
         }}
+      />
+      <ExpenseFilter categories={expenses.map((expense) => expense.category)} onSelectCategory={(selectedCategory) => setSelectedCategory(selectedCategory)} />
+      <ExpensesList
+        expenses={expensesFilteredByCategory}
+        onDeleteExpense={(id) => setExpenses(expenses.filter(expense => expense.id !== id))}
       />
     </>
   );
